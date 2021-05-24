@@ -9,15 +9,20 @@ The Car api accepts and processes form data, reads the images using multer libra
 To retrieve the image, image is read and converted from buffer to base64 format.
 
 BELOW ARE THE ENDPOINTS
+
 router.route('/')
             .get( carcontroller.getAllCars)
             .post(uploader().single('carImage'),carcontroller.addNewCar);
+            
 router.route('/:carid')
           .get(carcontroller.getOneCarById)
           .patch(carcontroller.partialCarUpdateById)
           .delete(carcontroller.deleteCarById)
+          
 router.route('/:carid/images')
       .post(uploader().single('carImage'),carimagecontroller.addcarImage)
       
  The API uses uploader module which retrives image file from the uploaded form data. The screen short of the module is attached.
  The controller reads the contents of the file and saves to the database. The screen short of the section of the controller is attached.
+ 
+ The uploader module is in the common folder
