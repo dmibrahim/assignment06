@@ -34,12 +34,9 @@ if(req.body && req.body.sellingPrice)
      car.sellingPrice = req.body.sellingPrice; 
 
 if(req.file){
+     //Read image as buffer from uploads folder
     let imgBuffer =  fs.readFileSync(path.join(req.file.destination,req.file.filename));
-    let base64 = imgBuffer.toString('base64');
-      console.log(base64);
-      // Feed out string to a buffer and then put it in the database
-      //let imageBuffer = Buffer.from(base64string, "base64");
-     // car.images = base64;
+       //initialize Image model
      let img = new Image();
      if(req.body.imagename)
         img.imagename = req.body.imagename;
@@ -48,10 +45,18 @@ if(req.file){
       }
         img.img =  {
           data: imgBuffer,
-          contentType: req.file.mimetype
+          //img/png, img/jpeg etc
+          contentType: req.file.mimetype  
       } 
-      console.log(img);
+     //add image to images arrays     
       car.images.push(img);
+
+      //remove image from upload directory. I will be saved as buffer in db
+      fs.unlink(path.join(req.file.destination,req.file.filename), function(err) {
+          if (err) {
+            console.log(err);
+          } 
+        })
 }
 
 console.log('Image',req.file) ;

@@ -21,7 +21,11 @@ addcarImage (req,res) {
              contentType: req.file.mimetype
          }
 
-         // will delete image
+         fs.unlink(path.join(req.file.destination,req.file.filename), function(err) {
+            if (err) {
+              console.log(err);
+            } 
+          })
     }
     else{
         res.status(205).json({msg: 'Please upload an image'})
